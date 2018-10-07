@@ -11,7 +11,8 @@ local FSM = require "utils.fsm"
 
 -- состояния системы
 local GlobalState = require "systems.ui.states.global_state"
-local SimpleMenu = require "systems.ui.states.simple_menu_state"
+local StartMenu = require "systems.ui.states.start_menu_state"
+local ExitMenu = require "systems.ui.states.exit_menu_state"
 
 
 local UISystem = class("UISystem", System)
@@ -24,7 +25,8 @@ function UISystem:initialize(data)
 
 	self.fsm = FSM({owner = self})
 
-	self.fsm:add_state(SimpleMenu({signal = self.signal}))
+	self.fsm:add_state(StartMenu({signal = self.signal, ui = self.ui}))
+	self.fsm:add_state(ExitMenu({signal = self.signal, ui = self.ui}))
 	self.fsm:add_state(GlobalState({
 		signal = self.signal,
 		owner = self

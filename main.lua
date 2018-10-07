@@ -29,9 +29,9 @@ function love.load()
     local ui = UISystem({signal = signal})
     local game = Game({signal = signal, engine = engine})
 
-    engine:addSystem(game, "update")
     engine:addSystem(ui, "update")
     engine:addSystem(ui, "draw")
+    engine:addSystem(game, "update")
 end
 
 function love.update(dt)

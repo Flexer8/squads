@@ -15,6 +15,25 @@ function GlobalState:initialize(data)
 	self.name = GlobalState.name
 	self.signal = data.signal
 	self.owner = data.owner
+
+	-- настройка получения сигналов
+	self.signal:register(
+		"ExitMenu",
+		function()
+			local fsm = self.owner:get_fsm()
+
+			fsm:change_state(fsm:get_state("ExitMenu"))
+		end
+	)
+
+	self.signal:register(
+		"StartMenu",
+		function()
+			local fsm = self.owner:get_fsm()
+
+			fsm:change_state(fsm:get_state("StartMenu"))
+		end
+	)
 end
 
 function GlobalState:enter(owner)

@@ -10,6 +10,7 @@ local FSM = require "utils.fsm"
 
 -- состояния
 local StarterMenu = require "systems.game_logic.states.starter_menu_state"
+local ExitGame = require "systems.game_logic.states.exit_game_state"
 
 
 local Game = class("Game", System)
@@ -23,6 +24,7 @@ function Game:initialize(data)
 	self.fsm = FSM({owner = self})
 
 	self.fsm:add_state(StarterMenu({signal = self.signal}))
+	self.fsm:add_state(ExitGame({signal = self.signal}))
 
 	-- установка начального состояния
 	self.fsm:change_state(self.fsm:get_state("StarterMenu"))

@@ -1,9 +1,8 @@
 ---
 -- global_state.lua
 --
--- Глобальное состояние системы UI
--- Нужно для прослушивания приходящих сигнаов и переключения между текущими
--- состояниями
+-- Глобальное состояние системы отображения игрового мира
+-- обрабатывает все переключения состояний
 
 
 local class = require "middleclass"
@@ -16,31 +15,21 @@ function GlobalState:initialize(data)
 	self.signal = data.signal
 	self.owner = data.owner
 
-	-- настройка получения сигналов
-	self.signal:register(
-		"ExitMenu",
-		function()
-			local fsm = self.owner:get_fsm()
-
-			fsm:change_state(fsm:get_state("ExitMenu"))
-		end
-	)
-
-	self.signal:register(
-		"StartMenu",
-		function()
-			local fsm = self.owner:get_fsm()
-
-			fsm:change_state(fsm:get_state("StartMenu"))
-		end
-	)
-
 	self.signal:register(
 		"MainGame",
 		function()
 			local fsm = self.owner:get_fsm()
 
-			fsm:change_state(fsm:get_state("MainGameMenu"))
+			fsm:change_state(fsm:get_state("MainView"))
+		end
+	)
+
+	self.signal:register(
+		"HideGameView",
+		function()
+			local fsm = self.owner:get_fsm()
+
+			fsm:change_state(fsm:get_state("EmptyView"))
 		end
 	)
 end

@@ -13,6 +13,7 @@ local FSM = require "utils.fsm"
 local GlobalState = require "systems.ui.states.global_state"
 local StartMenu = require "systems.ui.states.start_menu_state"
 local ExitMenu = require "systems.ui.states.exit_menu_state"
+local MainGameMenu = require "systems.ui.states.main_game_state"
 
 
 local UISystem = class("UISystem", System)
@@ -27,6 +28,7 @@ function UISystem:initialize(data)
 
 	self.fsm:add_state(StartMenu({signal = self.signal, ui = self.ui}))
 	self.fsm:add_state(ExitMenu({signal = self.signal, ui = self.ui}))
+	self.fsm:add_state(MainGameMenu({signal = self.signal, ui = self.ui}))
 	self.fsm:add_state(GlobalState({
 		signal = self.signal,
 		owner = self

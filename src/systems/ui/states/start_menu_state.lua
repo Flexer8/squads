@@ -36,7 +36,7 @@ function StartMenu:execute(dt, owner)
 	self.ui:Label("SQUADS!", self.ui.layout:row(self.button_widht, self.button_height))
 
 	if self.ui:Button("New Game", {id = 1}, self.ui.layout:row()).hit then
-
+		self.signal:emit("NewGame")
 	end
 
 	if self.ui:Button("Exit Game", {id = 2}, self.ui.layout:row()).hit then

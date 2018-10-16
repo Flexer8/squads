@@ -15,12 +15,20 @@ function StarterMenu:initialize(data)
 
 	-- флаги переключения состояний
 	self.to_exit = false
+	self.to_game = false
 
 	-- работа с сигналами
 	self.signal:register(
 		"ExitGame",
 		function()
 			self.to_exit = true
+		end
+	)
+
+	self.signal:register(
+		"NewGame",
+		function()
+			self.to_game = true
 		end
 	)
 end
@@ -35,6 +43,13 @@ function StarterMenu:execute(dt, owner)
 
 		local fsm = owner:get_fsm()
 		fsm:change_state(fsm:get_state("ExitGame"))
+	end
+
+	if self.to_game then
+		self.to_game = false
+
+		local fsm = owner:get_fsm()
+		fsm:change_state(fsm:get_state("MainGame"))
 	end
 end
 

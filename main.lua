@@ -10,6 +10,7 @@ local Signal = require "hump.signal"
 
 local Game = require "systems.game_logic.game_system"
 local UISystem = require "systems.ui.ui_system"
+local View = require "systems.view.view_system"
 
 
 lovetoys.initialize({
@@ -27,11 +28,14 @@ function love.load()
     local signal = Signal.new()
 
     local ui = UISystem({signal = signal})
+    local view = View({signal = signal})
     local game = Game({signal = signal, engine = engine})
 
     engine:addSystem(ui, "update")
     engine:addSystem(ui, "draw")
     engine:addSystem(game, "update")
+    engine:addSystem(view, "update")
+    engine:addSystem(view, "draw")
 end
 
 function love.update(dt)

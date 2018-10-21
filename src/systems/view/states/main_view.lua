@@ -5,24 +5,31 @@
 
 
 local class = require "middleclass"
+local sti = require "sti"
 
 
 local MainView = class("MainView")
 
 function MainView:initialize(data)
 	self.name = MainView.name
+
+	self.map = nil
 end
 
 function MainView:enter(owner)
-	-- body...
+	if not self.map then
+		local world = owner:get_world()
+
+		self.map = sti(world:map_to_draw())
+	end
 end
 
 function MainView:execute(dt, owner)
-	-- body...
+	self.map:update(dt)
 end
 
 function MainView:draw()
-	-- body...
+	self.map:draw()
 end
 
 function MainView:exit(owner)

@@ -20,6 +20,7 @@ function View:initialize(data)
 	System.initialize(self)
 
 	self.signal = data.signal
+	self.world = data.world
 
 	self.fsm = FSM({owner = self})
 
@@ -57,6 +58,14 @@ end
 -- @return[type=table] объект fsm
 function View:get_fsm()
     return self.fsm
+end
+
+---
+-- Получение доступа к объекту с игровым миром
+--
+-- @return[type=table] объект World
+function View:get_world()
+	return self.world
 end
 
 return View

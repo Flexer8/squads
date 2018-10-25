@@ -23,6 +23,7 @@ function UISystem:initialize(data)
 
 	self.signal = data.signal
 	self.ui = SUIT.new()
+	self.engine = data.engine
 
 	self.fsm = FSM({owner = self})
 
@@ -35,6 +36,13 @@ function UISystem:initialize(data)
 	}))
 
 	self.fsm:set_global_state(self.fsm:get_state("GlobalState"))
+
+	-- размер тайла
+	self.tile_size = 32
+
+	-- размеры активной части экрана
+	self.screen_x = 20
+	self.screen_y = 15
 end
 
 function UISystem:update(dt)
@@ -69,6 +77,30 @@ end
 -- @return[type=table] объект fsm
 function UISystem:get_fsm()
     return self.fsm
+end
+
+---
+-- Получение доступа к Engine
+--
+-- @return[type=table] объект engine
+function UISystem:get_engine()
+    return self.engine
+end
+
+---
+-- Получить размер тайла
+--
+-- @return[type=integer] Размер тайла
+function UISystem:get_tile_size()
+	return self.tile_size
+end
+
+---
+-- Получить размер активной части экрана
+--
+-- @return[type=integer] Размер по Х и по У
+function UISystem:get_resolution()
+	return self.screen_x, self.screen_y
 end
 
 return UISystem

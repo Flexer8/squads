@@ -22,6 +22,9 @@ function View:initialize(data)
 	self.signal = data.signal
 	self.world = data.world
 
+	-- набор объектов,с которыми может взаимодействовать система
+	self.entitis = {}
+
 	self.fsm = FSM({owner = self})
 
 	self.fsm:add_state(MainView())
@@ -32,10 +35,19 @@ function View:initialize(data)
 	}))
 
 	self.fsm:set_global_state(self.fsm:get_state("GlobalState"))
+
+	-- размер тайла
+	self.tile_size = 32
 end
 
 function View:update(dt)
-	-- body...
+	self.entitis = {}
+
+	for _, entity in ipairs(self.targets) do
+		if entity:has("Image") then
+			table.insert(self.entitis, entity)
+		end
+	end
 end
 
 function View:draw()
@@ -45,7 +57,7 @@ function View:draw()
 end
 
 function View:requires()
-	return {}
+	return {"Image"}
 end
 
 function View:onAddEntity(entity)
@@ -66,6 +78,22 @@ end
 -- @return[type=table] объект World
 function View:get_world()
 	return self.world
+end
+
+---
+-- Получить набор объектов, с которыми может взаимодействовать система
+--
+-- @return[type=table]
+function View:get_targets()
+	return self.entitis
+end
+
+---
+-- Получить размер тайла
+--
+-- @return[type=integer] Размер тайла
+function View:get_tile_size()
+	return self.tile_size
 end
 
 return View

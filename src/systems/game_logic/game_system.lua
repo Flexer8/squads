@@ -21,6 +21,7 @@ function Game:initialize(data)
 
 	self.signal = data.signal
     self.engine = data.engine
+	self.world = data.world
 
 	self.fsm = FSM({owner = self})
 
@@ -58,6 +59,13 @@ end
 -- @return[type=table] объект fsm
 function Game:get_fsm()
     return self.fsm
+end
+
+---
+-- Получение доступа к объекту игрового мира
+-- @return[type=table] Обект мира
+function Game:get_world()
+	return self.world
 end
 
 return Game

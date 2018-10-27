@@ -28,6 +28,9 @@ end
 function MainGame:enter(owner)
 	self.to_exit = false
 
+	local world = owner:get_world()
+	world:load_world()
+
 	self.signal:emit("MainGame")
 end
 

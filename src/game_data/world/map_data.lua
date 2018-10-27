@@ -10,18 +10,14 @@ local class = require "middleclass"
 local MapData = class("MapData")
 
 function MapData:initialize(data)
-	-- body...
-end
-
-function MapData:get_map()
-	return {
+	self.sti_data = {
 	  version = "1.1",
 	  luaversion = "5.1",
 	  tiledversion = "1.1.6",
 	  orientation = "orthogonal",
 	  renderorder = "right-down",
-	  width = 20,
-	  height = 15,
+	  width = nil,
+	  height = nil,
 	  tilewidth = 32,
 	  tileheight = 32,
 	  nextobjectid = 1,
@@ -55,37 +51,49 @@ function MapData:get_map()
 	  layers = {
 	    {
 	      type = "tilelayer",
-	      name = "Слой тайлов 1",
+	      name = "TileLayer01",
 	      x = 0,
 	      y = 0,
-	      width = 20,
-	      height = 15,
+	      width = nil,
+	      height = nil,
 	      visible = true,
 	      opacity = 1,
 	      offsetx = 0,
 	      offsety = 0,
 	      properties = {},
 	      encoding = "lua",
-	      data = {
-	        1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,
-	        1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1,
-	        1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1,
-	        1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1
-	      }
+	      data = nil
 	    }
 	  }
 	}
+end
+
+---
+-- Получение карты для отображения
+--
+-- @param[type=table] Объект Grid с картой
+-- @return[type=table] Структура, еобходимая для отображения
+function MapData:get_map(map)
+	self.sti_data.width = map:getWidth()
+	self.sti_data.height = map:getHeight()
+
+	local data = {}
+
+	for node, count in map:iter() do
+		table.insert(data, node.cell:get_view_tile())
+	end
+
+	local layers = self.sti_data.layers
+
+	for _, layer in ipairs(layers) do
+		if layer.name == "TileLayer01" then
+			layer.width = map:getWidth()
+			layer.height = map:getHeight()
+			layer.data = data
+		end
+	end
+
+	return self.sti_data
 end
 
 return MapData

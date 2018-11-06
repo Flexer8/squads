@@ -5,5 +5,6 @@
 
 
 return {
-	cursor_layer = 2
+	unit_layer = 2,
+	cursor_layer = 3
 }

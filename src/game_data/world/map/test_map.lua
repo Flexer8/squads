@@ -8,11 +8,14 @@ local class = require "middleclass"
 local Grid = require "jumper.grid"
 
 local CellFactory = require "game_data.world.cell.cell_factory"
+local layers_data = require "game_data.layers_data"
 
 
 local TestMap = class("TestMap")
 
-function TestMap:initialize()
+function TestMap:initialize(data)
+	self.owner = data.owner
+
 	self.map_str = [[
 ,..................,
 ,...............,,,,
@@ -42,6 +45,16 @@ function TestMap:get_map()
 	local map = Grid(empty_map)
 	self:fill_map(map)
 
+	local Unit, Position, Image = Component.load({"Unit", "Position", "Image"})
+
+	local test_unit = Entity()
+	test_unit:add(Unit())
+	test_unit:add(Position(1, 1))
+	test_unit:add(Image({img = "res/sprites/unit01.png", layer = layers_data.unit_layer}))
+
+	local engine = self.owner:get_engine()
+	engine:addEntity(test_unit)
+
 	return map
 end
 
@@ -70,6 +83,7 @@ end
 
 ---
 -- Наполнение карты из строки с данными
+--
 -- @param[type=table] объект Grid
 function TestMap:fill_map(grid)
 	local rowIndex, columnIndex = 1, 1

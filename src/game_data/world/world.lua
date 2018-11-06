@@ -16,6 +16,7 @@ local TestMap = require "game_data.world.map.test_map"
 local World = class("World")
 
 function World:initialize(data)
+	self.engine = data.engine
 	self.map_data = MapData()
 	self.map = nil
 end
@@ -25,7 +26,7 @@ end
 --
 -- @param[type=table] Объект с данными о карте
 function World:load_world(map)
-	local test_map = TestMap()
+	local test_map = TestMap({owner = self})
 	self.map = test_map:get_map()
 end
 
@@ -39,6 +40,14 @@ function World:map_to_draw()
 	local map = self.map_data:get_map(self.map)
 
 	return map
+end
+
+---
+-- Доступ к объекту Engine
+--
+-- @return[type=table] Объект Engine
+function World:get_engine()
+	return self.engine
 end
 
 return World

@@ -30,7 +30,7 @@ function love.load()
     engine = Engine()
 
     local signal = Signal.new()
-    local world = World()
+    local world = World({engine = engine})
 
     local ui = UISystem({signal = signal, engine = engine})
     local view = View({signal = signal, world = world})

@@ -71,6 +71,15 @@ function MainGameMenu:execute(dt, owner)
 
 		self.cursor_instance:get("Position"):set(cur_x, cur_y)
 	end
+
+	-- работа с нажатием кнопок мыши
+	if love.mouse.isDown(1) then
+		self.signal:emit(
+			"lmb",
+			self.cursor_instance:get("Position"):get_x(),
+			self.cursor_instance:get("Position"):get_x()
+		)
+	end
 end
 
 function MainGameMenu:draw()

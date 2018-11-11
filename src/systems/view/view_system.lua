@@ -57,7 +57,7 @@ function View:draw()
 end
 
 function View:requires()
-	return {"Image"}
+	return {--[["SelectionImage",]] "Image"}
 end
 
 function View:onAddEntity(entity)

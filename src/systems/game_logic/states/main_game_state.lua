@@ -32,6 +32,27 @@ function MainGame:enter(owner)
 	world:load_world()
 
 	self.signal:emit("MainGame")
+	self.signal:emit("SetKeyBinding", "MainGame")
+
+	-- обработка выделения
+	self.signal:register(
+		"lmb",
+		function(x, y)
+			if owner:get_world():is_unit(x, y) then
+				local unit = owner:get_world():get_unit(x, y)
+
+				if not unit:get("Unit"):is_selected() then
+					unit:get("Unit"):select()
+				end
+			else
+				local unit_list = owner:get_world():get_all_units()
+
+				for _, unit in ipairs(unit_list) do
+					unit:get("Unit"):unselect()
+				end
+			end
+		end
+	)
 end
 
 function MainGame:execute(dt, owner)

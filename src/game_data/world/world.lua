@@ -19,6 +19,7 @@ function World:initialize(data)
 	self.engine = data.engine
 	self.map_data = MapData()
 	self.map = nil
+	self.unit_list = {}
 end
 
 ---
@@ -48,6 +49,58 @@ end
 -- @return[type=table] Объект Engine
 function World:get_engine()
 	return self.engine
+end
+
+---
+-- Добавить отслеживание юнита
+--
+-- @param[type=object] Юнит для отслеживания
+function World:add_unit(unit)
+	table.insert(self.unit_list, unit)
+end
+
+-- Проверка, есть ли по данным координатам юнит
+--
+-- @param x[type=integer] Х-координата на карте
+-- @param y[type=integer] Y-координата на карте
+-- @return[type=boolean] true/false есть ли в данной ячейке какой-либо юнит
+function World:is_unit(x, y)
+	for _, unit in ipairs(self.unit_list) do
+		local unit_position = unit:get("Position")
+
+		local unit_x, unit_y = unit_position:get()
+
+		if unit_x == x and unit_y == y then
+			return true
+		end
+	end
+
+	return false
+end
+
+---
+-- Получить юнит, находящийся по данным координатам
+--
+-- @param x[type=integer] Х-координата на карте
+-- @param y[type=integer] Y-координата на карте
+-- @return[type=object] Юнит
+function World:get_unit(x, y)
+	for _, unit in ipairs(self.unit_list) do
+		local unit_position = unit:get("Position")
+
+		local unit_x, unit_y = unit_position:get()
+
+		if unit_x == x and unit_y == y then
+			return unit
+		end
+	end
+end
+
+--- Получить список совсеми юнитами
+--
+-- @returnp[type=table] Список всех юнитов на карте
+function World:get_all_units()
+	return self.unit_list
 end
 
 return World

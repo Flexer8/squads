@@ -46,6 +46,32 @@ function MainView:enter(owner)
 		end
 	end
 
+
+	-- Отображение выделения юнитов
+	local selection_layer = self.map:addCustomLayer("selection", layers_data.selection_layer)
+
+	---[[
+	selection_layer.draw = function(s)
+		local tergets = owner:get_targets()
+
+		for _, entity in ipairs(tergets) do
+			if entity:has("SelectionImage") then
+				if entity:get("SelectionImage"):get_layer() == layers_data.selection_layer then
+					local cursor = love.graphics.newImage(entity:get("SelectionImage"):get_img())
+
+					if entity:get("Unit") then
+						love.graphics.draw(
+							cursor,
+							(entity:get("Position"):get_x() * owner:get_tile_size()) - owner:get_tile_size(),
+							(entity:get("Position"):get_y() * owner:get_tile_size()) - owner:get_tile_size()
+						)
+					end
+				end
+			end
+		end
+	end
+	-- ]]
+
 	-- Отображение курсора
 	local cursor_layer = self.map:addCustomLayer("cursour", layers_data.cursor_layer)
 

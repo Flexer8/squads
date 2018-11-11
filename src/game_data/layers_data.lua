@@ -6,5 +6,6 @@
 
 return {
 	unit_layer = 2,
-	cursor_layer = 3
+	selection_layer = 3,
+	cursor_layer = 4
 }

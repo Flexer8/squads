@@ -48,12 +48,14 @@ function TestMap:get_map()
 	local Unit, Position, Image = Component.load({"Unit", "Position", "Image"})
 
 	local test_unit = Entity()
-	test_unit:add(Unit())
+	test_unit:add(Unit({owner = test_unit}))
 	test_unit:add(Position(1, 1))
 	test_unit:add(Image({img = "res/sprites/unit01.png", layer = layers_data.unit_layer}))
 
 	local engine = self.owner:get_engine()
 	engine:addEntity(test_unit)
+
+	self.owner:add_unit(test_unit)
 
 	return map
 end
